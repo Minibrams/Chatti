@@ -5,8 +5,86 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Chatti"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Icon="Resources/Logo/logo-small.png"
+        Title="Chatti" Height="600" Width="1000">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome ResizeBorderThickness="{Binding ResizeBorderThickness}"
+                      CaptionHeight="{Binding TitleHeight}"
+                      CornerRadius="0"
+                      GlassFrameThickness="0"/>
+    </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <!-- Override the entire window template -->
+        <Style TargetType="{x:Type local:MainWindow}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <!-- The template can just target a base window type -->
+                    <ControlTemplate TargetType="{x:Type Window}">
+                        <!-- Outer border with the dropshadow margin -->
+                        <Border Padding="{Binding OuterMarginThickness, FallbackValue=6}">
+                            <!-- Main window outline -->
+                            <Grid>
+                                <!-- Window border and dropshadow -->
+                                <Border CornerRadius="{Binding WindowCornerRadius, FallbackValue=10}"
+                                        Background="{StaticResource ForegroundLightBrush}">
+                                    <Border.Effect>
+                                        <DropShadowEffect ShadowDepth="0"
+                                                          Opacity="0.2"/>
+                                    </Border.Effect>
+                                </Border>
+                                
+                                <!-- Main window content -->
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <!-- Title -->
+                                        <RowDefinition Height="{Binding TitleHeightGridLength, FallbackValue=42}"/>
+                                        <!-- Dropshadow -->
+                                        <RowDefinition Height="Auto" /> 
+                                        <!-- Window content -->
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    
+                                    <!-- Title bar - set zIndex to 1 so it gets raised above the default grid -->
+                                    <Grid Grid.Column="0" Panel.ZIndex="1">
+                                        <Grid.ColumnDefinitions>
+                                            <!-- Icon --> 
+                                            <ColumnDefinition Width="Auto" /> 
+                                            <!-- Title -->
+                                            <ColumnDefinition Width="*" />
+                                            <!-- Buttons -->
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <!-- Icon -->
+                                        <Button Grid.Row="0" Grid.Column="0"
+                                                Style="{StaticResource SystemIconButton}" 
+                                                Command="{Binding MenuCommand}">
+                                            <Image Source="Resources/Logo/logo-small.png"/>
+                                        </Button>
+                                        
+                                        <!-- Title -->
+                                        <Viewbox Grid.Column="1" Margin="0" Stretch="Uniform">
+                                            <TextBlock Style="{StaticResource HeaderText}" FontSize="200" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Title}" />
+                                        </Viewbox>
+                                        
+                                        <!-- Buttons -->
+                                        <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                            <Button Content="_" Command="{Binding MinimizeCommand}" Style="{StaticResource WindowControlButton}"/>
+                                            <Button Content="[ ]" Command="{Binding MaximizeCommand}" Style="{StaticResource WindowControlButton}" />
+                                            <Button Content="X" Command="{Binding CloseCommand}" Style="{StaticResource CloseButton}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    
 </Window>

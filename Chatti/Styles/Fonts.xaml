@@ -1,0 +1,28 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Chatti">
+    
+    <!-- XAML fonts are weird -->
+    <FontFamily x:Key="LatoRegular">pack://appliction;,,,/Resources/Fonts/Lato/#Lato Regular</FontFamily>
+    <FontFamily x:Key="LatoThin">pack://appliction;,,,/Resources/Fonts/Lato#Lato Thin</FontFamily>
+    
+    <!-- The Lato Thin should be deault for every element -->
+    <Style TargetType="{x:Type Control}" x:Key="BaseStyle">
+        <Setter Property="FontFamily" Value="{StaticResource LatoThin}"/>
+    </Style>
+
+    <!-- Just specify that Lato Thin should be used everywhere - these elements are annoying sometimes -->
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BaseStyle}" />
+    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource BaseStyle}" />
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource BaseStyle}" />
+    <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource BaseStyle}" />
+
+
+    <!-- TextBlock does not inherit from control, so we'll make a specific style for TextBlock -->
+    <Style TargetType="{x:Type TextBlock}" x:Key="BaseTextBlockStyle">
+        <Setter Property="FontFamily" Value="{StaticResource LatoThin}"/>
+    </Style>
+    
+    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlockStyle}" />
+    
+</ResourceDictionary>
